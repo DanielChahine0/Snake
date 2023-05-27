@@ -11,7 +11,7 @@ WIDTH = 750
 HEIGHT = 750
 
 # Game speed
-FPS = 12.5
+FPS = 20
 TICKS = 15
 
 # initializing pygame
@@ -21,17 +21,36 @@ pygame.display.set_caption("Snake Game")
 
 # Snake
 snake_position = [100, 50]
-SNAKE = [[100, 50], [90, 50], [80, 50], [70, 50]]
+SNAKE = [[100, 50], [90, 50], [80, 50], [70, 50], [60, 50], [50, 50]]
 
-SNAKE_SIZE = 25
+SNAKE_SIZE = 10
 DIRECTION = "right"
-SPEED = 25
+SPEED = 10
 
 """
 ----------------------------------------------------------------------------------
                                     FUNCTIONS
 ----------------------------------------------------------------------------------                                    
 """
+
+
+# Game over function
+def game_over():
+    print("LOST")
+
+
+# Function to check for collision with the wall and self collision
+def check_collision():
+    # Out of border mechanism
+    if not (0 <= snake_position[0] <= WIDTH-SNAKE_SIZE):
+        game_over()
+    if not (0 <= snake_position[1] <= HEIGHT-SNAKE_SIZE):
+        game_over()
+
+    # Self collision
+    for block in SNAKE[1:]:
+        if block[0] == snake_position[0] and block[1] == snake_position[1]:
+            game_over()
 
 
 # Drawing functions
@@ -64,9 +83,12 @@ def draw_snake():
     if DIRECTION == "down":
         snake_position[1] += SPEED
 
+    SNAKE.insert(0, list(snake_position))
+    SNAKE.pop()
     for pos in SNAKE:
-        pygame.draw.rect(WINDOW, "green",
-                         pygame.Rect(pos[0], pos[1], 25, 25))
+        pygame.draw.rect(WINDOW, "green", pygame.Rect(pos[0], pos[1], 10, 10))
+
+
 
 
 # Draw everything
@@ -95,24 +117,20 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
-
-        # Check for pressed keys
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_DOWN] and DIRECTION != "up":
-            DIRECTION = "down"
-        if keys[pygame.K_UP] and DIRECTION != "down":
-            DIRECTION = "up"
-        if keys[pygame.K_LEFT] and DIRECTION != "right":
-            DIRECTION = "left"
-        if keys[pygame.K_RIGHT] and DIRECTION != "left":
-            DIRECTION = "right"
-
+                if event.key == pygame.K_DOWN and DIRECTION != "up":
+                    DIRECTION = "down"
+                if event.key == pygame.K_UP and DIRECTION != "down":
+                    DIRECTION = "up"
+                if event.key == pygame.K_LEFT and DIRECTION != "right":
+                    DIRECTION = "left"
+                if event.key == pygame.K_RIGHT and DIRECTION != "left":
+                    DIRECTION = "right"
+        # Draw everything
+        draw()
+        check_collision()
         # Control game speed
         clock = pygame.time.Clock()
         clock.tick(FPS)
-
-        # Draw everything
-        draw()
 
 
 if __name__ == "__main__":
