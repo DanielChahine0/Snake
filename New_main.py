@@ -19,6 +19,8 @@ blue = pygame.Color(0, 0, 255)
 # Initialising pygame
 pygame.init()
 
+EAT = False
+
 # Initialise game window
 pygame.display.set_caption('GeeksforGeeks Snakes')
 game_window = pygame.display.set_mode((window_x, window_y))
@@ -112,6 +114,8 @@ while True:
                 change_to = 'LEFT'
             if event.key == pygame.K_RIGHT:
                 change_to = 'RIGHT'
+            if event.key == pygame.K_t or event.key == pygame.K_r or event.key == pygame.K_e:
+                EAT = True
 
     # If two keys pressed simultaneously
     # we don't want snake to move into two
@@ -139,9 +143,10 @@ while True:
     # if fruits and snakes collide then scores
     # will be incremented by 10
     snake_body.insert(0, list(snake_position))
-    if snake_position[0] == fruit_position[0] and snake_position[1] == fruit_position[1]:
+    if (snake_position[0] == fruit_position[0] and snake_position[1] == fruit_position[1]) or EAT:
         score += 10
         fruit_spawn = False
+        EAT = False
     else:
         snake_body.pop()
 

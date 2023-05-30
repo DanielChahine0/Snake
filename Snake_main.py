@@ -39,6 +39,7 @@ Eat = False
 
 # Score
 SCORE = 0
+FONT = pygame.font.SysFont("Times New Roman", 30)
 
 
 """
@@ -48,6 +49,7 @@ SCORE = 0
 """
 
 
+# Functions that draws and generate the fruit
 def generate_fruit():
     global FRUIT
     FRUIT = [random.randint(0, WIDTH//SNAKE_SIZE-1)*SNAKE_SIZE, random.randint(0, HEIGHT//SNAKE_SIZE-1)*SNAKE_SIZE]
@@ -68,6 +70,12 @@ def draw_fruit():
 # Game over function
 def game_over():
     print("LOST")
+
+
+# Function to display the current score of the game
+def display_score():
+    score_surface = FONT.render("Score: " + str(SCORE), True, "white")
+    WINDOW.blit(score_surface, (10, 10))
 
 
 # Function to check for collision with the wall and self collision
@@ -101,7 +109,7 @@ def draw_bg():
 
 # function that draws the snake
 def draw_snake():
-    global SPAWNED, Eat, DIRECTION
+    global SPAWNED, Eat, DIRECTION, SCORE
 
     if CHANGE == "up" and DIRECTION != "down":
         DIRECTION = "up"
@@ -111,7 +119,6 @@ def draw_snake():
         DIRECTION = "left"
     if CHANGE == "right" and DIRECTION != "left":
         DIRECTION = "right"
-
 
     if DIRECTION == "right":
         snake_position[0] += SPEED
@@ -126,6 +133,7 @@ def draw_snake():
     if (snake_position[0] == FRUIT[0] and snake_position[1] == FRUIT[1]) or Eat:
         SPAWNED = False
         Eat = False
+        SCORE += 10
     else:
         SNAKE.pop()
     for pos in SNAKE:
@@ -137,7 +145,7 @@ def draw():
     draw_bg()
     draw_snake()
     draw_fruit()
-
+    display_score()
 
     # Makes sure to update the display after drawing
     pygame.display.update()
