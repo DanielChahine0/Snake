@@ -1,3 +1,5 @@
+import time
+
 import pygame
 import random
 
@@ -40,6 +42,7 @@ Eat = False
 # Score
 SCORE = 0
 FONT = pygame.font.SysFont("Times New Roman", 30)
+GAME_OVER_FONT = pygame.font.SysFont("Time New Roman", 60)
 
 
 """
@@ -69,7 +72,20 @@ def draw_fruit():
 
 # Game over function
 def game_over():
-    print("LOST")
+    global SPEED
+
+    GO_Surface = GAME_OVER_FONT.render("YOUR SCORE IS: "+str(SCORE), True, "black")
+    height = GO_Surface.get_height()
+    width = GO_Surface.get_width()
+    X = (WIDTH-width)/2
+    Y = (HEIGHT-height)/2
+    margin = 50
+    RED_REC = pygame.Rect(X-margin, Y-margin, width+2*margin, height+2*margin)
+    pygame.draw.rect(WINDOW, "red", RED_REC)
+    WINDOW.blit(GO_Surface, (X, Y))
+    pygame.display.update()
+
+    SPEED = 0
 
 
 # Function to display the current score of the game
@@ -151,6 +167,25 @@ def draw():
     pygame.display.update()
 
 
+def restart():
+    global SPEED, SNAKE_SIZE, snake_position, SNAKE, DIRECTION, CHANGE, SCORE
+
+    # Snake
+    SNAKE_SIZE = 25
+    snake_position = [SNAKE_SIZE * 10, SNAKE_SIZE * 5]
+    SNAKE = [[SNAKE_SIZE * 10, SNAKE_SIZE * 5],
+             [SNAKE_SIZE * 9, SNAKE_SIZE * 5],
+             [SNAKE_SIZE * 8, SNAKE_SIZE * 5],
+             [SNAKE_SIZE * 7, SNAKE_SIZE * 5],
+             [SNAKE_SIZE * 6, SNAKE_SIZE * 5],
+             [SNAKE_SIZE * 5, SNAKE_SIZE * 5]]
+    DIRECTION = "right"
+    CHANGE = "right"
+    SPEED = SNAKE_SIZE
+    SCORE = 0
+    generate_fruit()
+
+
 # Main function
 def main():
     # global variables
@@ -178,6 +213,8 @@ def main():
                     CHANGE = "right"
                 if event.key == pygame.K_t:
                     Eat = True
+                if event.key == pygame.K_r:
+                    restart()
 
         # Draw everything
         draw()
