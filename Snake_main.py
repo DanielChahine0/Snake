@@ -18,13 +18,13 @@ pygame.display.set_caption("Snake Game")
 
 # Snake
 SNAKE_SIZE = 25
-snake_position = [SNAKE_SIZE*10, SNAKE_SIZE*5]
-SNAKE = [[SNAKE_SIZE*10, SNAKE_SIZE*5],
-         [SNAKE_SIZE*9, SNAKE_SIZE*5],
-         [SNAKE_SIZE*8, SNAKE_SIZE*5],
-         [SNAKE_SIZE*7, SNAKE_SIZE*5],
-         [SNAKE_SIZE*6, SNAKE_SIZE*5],
-         [SNAKE_SIZE*5, SNAKE_SIZE*5]]
+snake_position = [SNAKE_SIZE*5, SNAKE_SIZE*5]
+SNAKE = [[SNAKE_SIZE*5, SNAKE_SIZE*5],
+         [SNAKE_SIZE*4, SNAKE_SIZE*5],
+         [SNAKE_SIZE*3, SNAKE_SIZE*5],
+         [SNAKE_SIZE*2, SNAKE_SIZE*5],
+         [SNAKE_SIZE*1, SNAKE_SIZE*5],
+         [SNAKE_SIZE*0, SNAKE_SIZE*5]]
 DIRECTION = "right"
 CHANGE = "right"
 DEAD = False
@@ -201,17 +201,16 @@ def restart():
     global SPEED, SNAKE_SIZE, snake_position, SNAKE, DIRECTION, CHANGE, SCORE, DEAD
 
     DEAD = False
-    SNAKE_SIZE = 25
-    snake_position = [SNAKE_SIZE * 10, SNAKE_SIZE * 5]
-    SNAKE = [[SNAKE_SIZE * 10, SNAKE_SIZE * 5],
-             [SNAKE_SIZE * 9, SNAKE_SIZE * 5],
-             [SNAKE_SIZE * 8, SNAKE_SIZE * 5],
-             [SNAKE_SIZE * 7, SNAKE_SIZE * 5],
-             [SNAKE_SIZE * 6, SNAKE_SIZE * 5],
-             [SNAKE_SIZE * 5, SNAKE_SIZE * 5]]
+    snake_position = [SNAKE_SIZE * 5, SNAKE_SIZE * 5]
+    SNAKE = [[SNAKE_SIZE * 5, SNAKE_SIZE * 5],
+             [SNAKE_SIZE * 4, SNAKE_SIZE * 5],
+             [SNAKE_SIZE * 3, SNAKE_SIZE * 5],
+             [SNAKE_SIZE * 2, SNAKE_SIZE * 5],
+             [SNAKE_SIZE * 1, SNAKE_SIZE * 5],
+             [SNAKE_SIZE * 0, SNAKE_SIZE * 5]]
     DIRECTION = "right"
     CHANGE = "right"
-    SPEED = SNAKE_SIZE
+    
     SCORE = 0
     generate_fruit()
 
@@ -260,6 +259,18 @@ def theme(number):
         THEME_NAME = "Jungle"
 
 
+def increase():
+    global SPEED, SNAKE_SIZE
+    SNAKE_SIZE += 5
+    SPEED -= 5
+
+
+def decrease():
+    global SPEED, SNAKE_SIZE
+    SNAKE_SIZE -= 5
+    SPEED += 5
+
+
 # Main function
 def main():
     # global variables
@@ -300,6 +311,10 @@ def main():
                     theme(3)
                 if event.key == pygame.K_KP4:
                     theme(4)
+                if event.key == pygame.K_KP_PLUS:
+                    increase()
+                if event.key == pygame.K_KP_MINUS:
+                    decrease()
 
         # Draw everything
         draw()
