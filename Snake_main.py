@@ -210,7 +210,7 @@ def restart():
              [SNAKE_SIZE * 0, SNAKE_SIZE * 5]]
     DIRECTION = "right"
     CHANGE = "right"
-    
+    SPEED = SNAKE_SIZE
     SCORE = 0
     generate_fruit()
 
@@ -244,7 +244,7 @@ def theme(number):
 
     # Space
     if number == 3:
-        THEME_Snake = (6, 19, 87)
+        THEME_Snake = (0, 0, 0)
         THEME_Fruit = (234, 242, 7)
         THEME_Ground = (13, 29, 110)
         THEME_Border = (7, 13, 43)
@@ -257,18 +257,6 @@ def theme(number):
         THEME_Ground = (19, 102, 4)
         THEME_Border = (87, 54, 12)
         THEME_NAME = "Jungle"
-
-
-def increase():
-    global SPEED, SNAKE_SIZE
-    SNAKE_SIZE += 5
-    SPEED -= 5
-
-
-def decrease():
-    global SPEED, SNAKE_SIZE
-    SNAKE_SIZE -= 5
-    SPEED += 5
 
 
 # Main function
@@ -311,10 +299,7 @@ def main():
                     theme(3)
                 if event.key == pygame.K_KP4:
                     theme(4)
-                if event.key == pygame.K_KP_PLUS:
-                    increase()
-                if event.key == pygame.K_KP_MINUS:
-                    decrease()
+
 
         # Draw everything
         draw()
